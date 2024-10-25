@@ -15,7 +15,7 @@ pub mod journal {
     journal_entry.title = title;
     journal_entry.message = message;
 
-    msg!("Message created and state saced in to the Journal Entry State account");
+    msg!("Message created and state saved in to the Journal Entry State account");
 
     Ok(())
   }
@@ -67,8 +67,11 @@ pub struct UpdateEntry<'info> {
     mut,
     seeds = [title.as_bytes(), owner.key.as_ref()],
     bump,
-    //this way only the owner can close the account
-    close = owner,
+    //since the message string size can change with the update we use realloc to realocate the lamports debiting or crediting the lamports to the owner as needed
+    realloc = 8 + JournalEntryState::INIT_SPACE,
+    realloc::payer = owner,
+    //this sets the original space back to zero and recalculate everything
+    realloc::zero = true,
    )]
   pub journal_entry: Account <'info, JournalEntryState>,
 
@@ -87,11 +90,8 @@ pub struct DeleteEntry<'info> {
     mut,
     seeds = [title.as_bytes(), owner.key.as_ref()],
     bump,
-    //since the message string size can change with the update we use realloc to realocate the lamports debiting or crediting the lamports to the owner as needed
-    realloc = 8 + JournalEntryState::INIT_SPACE,
-    realloc::payer = owner,
-    //this sets the original space back to zero and recalculate everything
-    realloc::zero = true,
+      //this way only the owner can close the account
+      close = owner,
    )]
   pub journal_entry: Account <'info, JournalEntryState>,
 

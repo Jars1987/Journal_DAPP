@@ -101,11 +101,7 @@ function JournalCard({ account }: { account: PublicKey }) {
 
   const { publicKey } = useWallet();
   const [message, setMessage] = useState('');
-  const title = useMemo(
-    () => accountQuery.data?.title ?? undefined,
-    [accountQuery.data?.title]
-  );
-
+  const title = accountQuery.data?.title;
   const isFormValid = message.trim() != '';
 
   const handleSubmit = () => {
@@ -152,7 +148,7 @@ function JournalCard({ account }: { account: PublicKey }) {
           >
             Update Journal Entry {updateEntry.isPending && '...'}
           </button>
-          <button onClick={deleteJournal} disabled={deleteEntry.isPending}>
+          <button onClick={deleteJournal} disabled={updateEntry.isPending}>
             Close
           </button>
         </div>
