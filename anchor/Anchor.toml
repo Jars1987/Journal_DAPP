@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-journal = "AsjZ3kWAUSQRNt2pZVeJkywhZ6gpLpHZmJjduPmKZDZZ"
+journal = "JDMKvhV3gafANaWaLjsUTrevDbG7kXNUm6R9UgzP1ixy"
 
 [registry]
 url = "https://api.apr.dev"
